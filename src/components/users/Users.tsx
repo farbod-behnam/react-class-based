@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Component, useState } from 'react';
 import { UserModel } from '../../models/User.model';
 
 import User from '../user/User';
@@ -10,15 +10,29 @@ const DUMMY_USERS = [
     new UserModel("u3", "Julie"),
 ];
 
-export default function Users() {
+interface Props {
 
-    const [showUsers, setShowUsers] = useState<boolean>(true);
+}
 
-    const toggleUsersHandler = () => {
-        setShowUsers((prevState) => !prevState);
-    };
+interface State {
+    showUsers: boolean;
+}
 
-    const usersList = (
+export default class Users extends Component<Props, State> {
+
+    constructor(state: State) {
+        super(state)
+        this.state = { showUsers: true }
+    }
+
+    toggleUsersHandler = () => {
+        // this.setState({showUsers: false});
+        this.setState((prevState) => {
+            return { showUsers: !prevState.showUsers };
+        })
+    }
+
+    private usersList = (
         <ul>
             {DUMMY_USERS.map((user) => (
                 <User key={user.id} name={user.name} />
@@ -26,12 +40,41 @@ export default function Users() {
         </ul>
     );
 
-    return (
-        <div className={classes.users}>
-            <button onClick={toggleUsersHandler}>
-                {showUsers ? 'Hide' : 'Show'} Users
-            </button>
-            {showUsers && usersList}
-        </div>
-    );
+    render() {
+        return (
+            <div className={classes.users}>
+                <button onClick={this.toggleUsersHandler.bind(this)}>
+                    {this.state.showUsers ? 'Hide' : 'Show'} Users
+                </button>
+                {this.state.showUsers && this.usersList}
+            </div>
+        );
+    }
+
 }
+
+// export default function Users() {
+
+//     const [showUsers, setShowUsers] = useState<boolean>(true);
+
+//     const toggleUsersHandler = () => {
+//         setShowUsers((prevState) => !prevState);
+//     };
+
+//     const usersList = (
+//         <ul>
+//             {DUMMY_USERS.map((user) => (
+//                 <User key={user.id} name={user.name} />
+//             ))}
+//         </ul>
+//     );
+
+//     return (
+//         <div className={classes.users}>
+//             <button onClick={toggleUsersHandler}>
+//                 {showUsers ? 'Hide' : 'Show'} Users
+//             </button>
+//             {showUsers && usersList}
+//         </div>
+//     );
+// }
