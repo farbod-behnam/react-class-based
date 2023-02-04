@@ -8,6 +8,10 @@ interface Props {
 
 export default class User extends Component<Props> {
 
+    componentWillUnmount(): void {
+        console.log("User will unmount!");
+    }
+
     render() {
         return <li className={classes.user}>{this.props.name}</li>
     }
