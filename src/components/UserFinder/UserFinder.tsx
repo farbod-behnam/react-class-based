@@ -1,14 +1,11 @@
-import { Fragment, useState, useEffect, FormEvent, Component } from 'react';
+import { Fragment, useState, useEffect, FormEvent, Component, Context, ContextType } from 'react';
 
 import classes from "./UserFinder.module.css";
 import { UserModel } from '../../models/User.model';
 import Users from '../Users/Users';
+import { IUsers } from '../../interfaces/Users.interface';
+import UsersContext from '../../context/users-context';
 
-const DUMMY_USERS: UserModel[] = [
-    { id: "u1", name: "Max" },
-    { id: "u2", name: "Manual" },
-    { id: "u3", name: "Julie" },
-];
 
 interface Props {
 
@@ -22,6 +19,11 @@ interface State {
 
 export default class UserFinder extends Component<Props, State> {
 
+    // static contextType: Context<IUsers> | undefined = UsersContext;
+
+    static contextType = UsersContext;
+    context!: ContextType<typeof UsersContext>;
+
     constructor(props: Props, state: State) {
         super(props, state);
         this.state = {
@@ -32,12 +34,12 @@ export default class UserFinder extends Component<Props, State> {
 
     componentDidMount(): void {
         // Send http request ...
-        this.setState({ filteredUsers: DUMMY_USERS })
+        this.setState({ filteredUsers: this.context.users})
     }
 
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
         if (prevState.searchTerm !== this.state.searchTerm) {
-            this.setState({ filteredUsers: DUMMY_USERS.filter((user) => user.name.includes(this.state.searchTerm)) })
+            this.setState({ filteredUsers: this.context.users.filter((user) => user.name.includes(this.state.searchTerm)) })
         }
     }
 
