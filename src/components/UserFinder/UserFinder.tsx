@@ -1,10 +1,10 @@
-import { Fragment, useState, useEffect, FormEvent, Component, Context, ContextType } from 'react';
+import { Fragment, FormEvent, Component, ContextType } from 'react';
 
 import classes from "./UserFinder.module.css";
 import { UserModel } from '../../models/User.model';
 import Users from '../Users/Users';
-import { IUsers } from '../../interfaces/Users.interface';
 import UsersContext from '../../context/users-context';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 
 interface Props {
@@ -54,7 +54,9 @@ export default class UserFinder extends Component<Props, State> {
                 <div className={classes.finder}>
                     <input type='search' onChange={this.searchChangeHandler.bind(this)} />
                 </div>
-                <Users users={this.state.filteredUsers} />
+                <ErrorBoundary>
+                    <Users users={this.state.filteredUsers} />
+                </ErrorBoundary>
             </Fragment>
         )
     }

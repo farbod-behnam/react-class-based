@@ -1,5 +1,4 @@
-import React, { Children, Fragment, ReactNode } from 'react'
-import PropTypes from 'prop-types'
+import { ReactNode } from 'react'
 import UsersContext from './users-context';
 import { UserModel } from '../models/User.model';
 import { IUsers } from '../interfaces/Users.interface';

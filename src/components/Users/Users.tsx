@@ -22,6 +22,12 @@ export default class Users extends Component<Props, State> {
         this.state = { showUsers: true }
     }
 
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
+        if (this.props.users.length === 0) {
+            throw new Error("No users provided");
+        }
+    }
+
     toggleUsersHandler = () => {
         // this.setState({showUsers: false});
         this.setState((prevState) => {
